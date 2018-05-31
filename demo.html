@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VUE-MVVM</title>
+</head>
+<body>
+    <div id="app">
+        <p>mvvm</p>
+        <p v-text="vModelChild.child"></p>
+        <p style="color: blue">{{vText}}</p>
+        <p v-html="vHtml"></p>
+        <div>
+            <input type="text" v-model="vModel">
+        </div>
+        <p style="color:red">{{vModel}}</p>
+        <div>
+            <input type="text" v-model="vModelChild.child">
+        </div>
+        <p style="color:red">{{vModelChild.child}}</p>
+        <div class="a">
+            <div class="b">
+                <div class="c"></div>
+            </div>
+        </div>
+        <button v-on:click="clickBtn">Fuck Btn</button>
+    </div>
+
+    <script src="./js/obverser.js"></script>
+    <script src="./js/compiler.js"></script>
+    <script src="./js/watcher.js"></script>
+    <script src="./js/mvvm.js"></script>
+    <script>
+        var vm = new MVVM({
+            el: '#app',
+            data: {
+                vText: 'text',
+                vHtml: '<span style="color: red">html</span>',
+                vModel: 'model',
+                vModelChild: {
+                    child: 'model-child'
+                },
+                // vClass: 'class'
+            },
+            computed: {
+                textAndModel: function () {
+                    return this.vText + ' ' + this.vModel
+                }
+            },
+
+            methods: {
+                clickBtn: function (e) {
+                    this.vModel = "fuck"
+                    this.vModelChild.child = "fuck"
+                }
+            }
+        })
+        vm.$watch('vModelChild.child', function() {
+            console.log('fuck change')
+        });
+    </script>
+</body>
+</html>
